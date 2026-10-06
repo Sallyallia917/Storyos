@@ -1,0 +1,17 @@
+[
+  {
+    "id": "C001",
+    "object": "杨康",
+    "object_type": "Character"
+  },
+  {
+    "id": "C002",
+    "object": "令狐冲",
+    "object_type": "Character"
+  },
+  {
+    "id": "C003",
+    "object": "宁秀秀",
+    "object_type": "Character"
+  }
+]
