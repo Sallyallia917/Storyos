@@ -26,6 +26,9 @@ dist/
 # Streamlit
 .streamlit/secrets.toml
 
+# Generated experiment outputs
+evaluation/outputs/
+
 # Editor and OS files
 .vscode/
 .idea/
