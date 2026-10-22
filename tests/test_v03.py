@@ -41,7 +41,7 @@ def minimal_valid_result():
 def test_v03_prompt_adds_evidence_guardrails():
     assert len(SYSTEM_PROMPT_V03) > len(BASELINE_SYSTEM_PROMPT)
     assert "可行性结论" in SYSTEM_PROMPT_V03
-    assert "事实/推断/假设" in SYSTEM_PROMPT_V03
+    assert "事实、推断、假设" in SYSTEM_PROMPT_V03
 
 
 def test_prompt_version_switch():
