@@ -4,7 +4,7 @@ from typing import Any
 
 from openai import APIError, OpenAI
 
-from prompts.storyos_prompt import SYSTEM_PROMPT
+from prompts.storyos_prompt import BASELINE_SYSTEM_PROMPT, SYSTEM_PROMPT_V03
 
 
 OUTPUT_SCHEMA = {
@@ -58,6 +58,14 @@ OUTPUT_SCHEMA = {
 }
 
 
+def _get_system_prompt() -> str:
+    """Select the prompt version for paired regression tests."""
+    version = os.getenv("STORYOS_PROMPT_VERSION", "v03").strip().lower()
+    if version in {"baseline", "v022", "v0.2.2"}:
+        return BASELINE_SYSTEM_PROMPT
+    return SYSTEM_PROMPT_V03
+
+
 class StoryOSReasoningError(Exception):
     """Raised when the model call or its structured response fails."""
 
@@ -72,7 +80,7 @@ def analyze_story(subject: str) -> dict[str, Any]:
         response = client.chat.completions.create(
             model="deepseek-chat",
             messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "system", "content": _get_system_prompt()},
                 {"role": "user", "content": f"请分析以下对象：{subject}"},
             ],
             response_format={"type": "json_object"},
