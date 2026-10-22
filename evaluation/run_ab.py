@@ -8,11 +8,14 @@ Each run calls the model twice and saves both raw JSON results to
 """
 import json
 import os
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
 from core.reasoning import analyze_object
 
-ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "evaluation" / "outputs" / "ab_latest.json"
 
 
