@@ -81,7 +81,7 @@ def call_model(client: OpenAI, subject: str, use_storyos: bool) -> dict[str, Any
 
 
 def safe_slug(value: str) -> str:
-    slug = re.sub(r"[^\\w一-鿿-]+", "_", value, flags=re.UNICODE).strip("_")
+    slug = re.sub(r"[^\w一-鿿-]+", "_", value, flags=re.UNICODE).strip("_")
     return slug[:60] or "subject"
 
 
