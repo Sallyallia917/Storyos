@@ -7,52 +7,55 @@ from openai import APIError, OpenAI
 from prompts.storyos_prompt import BASELINE_SYSTEM_PROMPT, SYSTEM_PROMPT_V03
 
 
+OPTIONAL_TEXT = (str, type(None))
+
+
 OUTPUT_SCHEMA = {
-    "object": str,
-    "object_type": str,
+    "object": OPTIONAL_TEXT,
+    "object_type": OPTIONAL_TEXT,
     "system": {
-        "era_context": str,
-        "institutions_rules": [str],
-        "organization_structure": [str],
-        "power_resource_relations": [str],
-        "social_constraints": [str],
+        "era_context": OPTIONAL_TEXT,
+        "institutions_rules": [OPTIONAL_TEXT],
+        "organization_structure": [OPTIONAL_TEXT],
+        "power_resource_relations": [OPTIONAL_TEXT],
+        "social_constraints": [OPTIONAL_TEXT],
     },
     "decision_cycles": [
         {
-            "context": str,
-            "constraints": [str],
+            "context": OPTIONAL_TEXT,
+            "constraints": [OPTIONAL_TEXT],
             "choice_space": [
                 {
-                    "option": str,
-                    "why_possible": str,
-                    "risk": str,
-                    "cost": str,
+                    "option": OPTIONAL_TEXT,
+                    "why_possible": OPTIONAL_TEXT,
+                    "risk": OPTIONAL_TEXT,
+                    "cost": OPTIONAL_TEXT,
                 }
             ],
             "agency": {
-                "level": str,
-                "can_control": [str],
-                "cannot_control": [str],
-                "actual_use": str,
+                "level": OPTIONAL_TEXT,
+                "can_control": [OPTIONAL_TEXT],
+                "cannot_control": [OPTIONAL_TEXT],
+                "actual_use": OPTIONAL_TEXT,
             },
-            "desire": [str],
-            "fear": [str],
-            "choice": str,
-            "choice_reason": str,
-            "cost": [str],
-            "new_context": str,
+            "desire": [OPTIONAL_TEXT],
+            "fear": [OPTIONAL_TEXT],
+            "choice": OPTIONAL_TEXT,
+            "choice_reason": OPTIONAL_TEXT,
+            "cost": [OPTIONAL_TEXT],
+            "new_context": OPTIONAL_TEXT,
             "choice_space_change": {
-                "direction": str,
-                "reason": str,
+                "direction": OPTIONAL_TEXT,
+                "reason": OPTIONAL_TEXT,
             },
         }
     ],
-    "overall_trajectory": str,
+    "overall_trajectory": OPTIONAL_TEXT,
     "evidence": [
         {
-            "fact": str,
-            "source": str,
-            "supports": str,
+            "fact": OPTIONAL_TEXT,
+            "source": OPTIONAL_TEXT,
+            "supports": OPTIONAL_TEXT,
         }
     ],
 }
@@ -139,7 +142,10 @@ def _validate_value(value: Any, schema: Any, path: str) -> None:
         return
 
     if not isinstance(value, schema):
-        expected_type = schema.__name__
+        if isinstance(schema, tuple):
+            expected_type = " 或 ".join(t.__name__ for t in schema)
+        else:
+            expected_type = schema.__name__
         raise StoryOSReasoningError(
             f"模型返回字段类型不正确：{path} 必须是 {expected_type}。"
         )
